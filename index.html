@@ -1,0 +1,95 @@
+<!doctype html>
+<html class="no-js" lang="" style="height:100%">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="site.webmanifest">
+
+    </head>
+    <body style="margin:0;height:100%;background-color:red">
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div style="height:100%;overflow-y:scroll">
+            <canvas id="day-view" width="100vw" height="100vh" style="background-color:rgb(230, 230, 230)"></canvas>
+        <div>
+        
+
+
+    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+    <script>
+        $(document).ready(function(){
+
+        });
+
+
+        (function() {
+            var canvas = document.getElementById('day-view')
+            
+            canvas.parentElement.width = window.innerWidth;
+            canvas.parentElement.height = window.innerHeight;
+            console.log(canvas.parentElement.width)
+            console.log(canvas.parentElement.height)
+
+            context = canvas.getContext('2d');
+
+            // resize the canvas to fill browser window dynamically
+            window.addEventListener('resize', resizeCanvas, false);
+
+            function resizeCanvas() {
+                
+                    canvas.width = canvas.parentElement.width;
+                    canvas.height = canvas.parentElement.height*3;
+
+                    /**
+                    * Your drawings need to be inside this function otherwise they will be reset when 
+                    * you resize the browser window and the canvas goes will be cleared.
+                    */
+                    drawStuff(); 
+            }
+            resizeCanvas();
+
+            function drawStuff() {
+                var c_width = canvas.width;
+                var c_height = canvas.height;
+                console.log(c_width+" "+c_height);
+                // do your drawing stuff here
+                context.font = "10pt Arial";
+                var spacer = c_height/27
+                for(i=0; i<27; i++){
+                    var h = i % 24
+                    context.fillText(formatAMPM(h, 0),canvas.width/40, ((spacer/2)+(i*spacer)));
+                }
+                
+
+            }
+            function formatAMPM(hour, minutes) {
+                var ampm = hour >= 12 ? 'pm' : 'am';
+                hour = hour % 12;
+                hour = hour ? hour : 12; // the hour '0' should be '12'
+                minutes = minutes < 10 ? '0'+minutes : minutes;
+                var strTime = hour + ':' + minutes + ' ' + ampm;
+                return strTime;
+            }
+
+        })();        
+    </script>     
+    
+    
+<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->    
+<!--    
+    <script>
+        window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+        ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>    
+-->
+</html>
